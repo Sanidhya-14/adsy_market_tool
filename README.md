@@ -1,36 +1,193 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# Adsy Global: Procurement Intelligence Platform
 
-First, run the development server:
+**AI-Powered B2B Chemical Procurement Dashboard**
+
+*Built by [Sanidhya Kumar Ghosal](https://github.com/Sanidhya-14) · [Adsy Global Solutions](https://github.com/Sanidhya-14/adsy_market_tool)*
+
+---
+
+[![Next.js](https://img.shields.io/badge/Next.js-App_Router-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Groq](https://img.shields.io/badge/Groq-Llama--3-F55036?style=for-the-badge)](https://groq.com/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+
+</div>
+
+---
+
+## Overview
+
+Chemical procurement teams operate in an environment of **deliberate information asymmetry**. Suppliers control pricing visibility; buyers are left negotiating blind.
+
+**Adsy Global: Procurement Intelligence Platform** closes that gap.
+
+This enterprise dashboard aggregates real-time feedstock prices from authoritative public data sources, applies **should-cost proxy modeling** to opaque specialty chemicals, and runs **live AI sentiment analysis** on market news — delivering procurement teams the hard data and strategic directives they need to walk into supplier negotiations with confidence.
+
+> *"Know the real cost before the first email. Win the negotiation before the first call."*
+
+---
+
+## ✨ Features
+
+### 📊 Dual-Tier Market Data Strategy
+Real-time API ingestion for **Tier 1 feedstocks** (Crude Oil, Natural Gas, Ethylene, Benzene, and more) via the U.S. EIA and FRED APIs. Tier 2 opaque specialty chemicals are modeled via **proxy composition indices**, converting publicly unavailable pricing into traceable, defensible cost estimates.
+
+### 🧮 Should-Cost Proxy Calculator
+An interactive tool that lets buyers define a specialty chemical's raw material inputs (e.g., HDPE + Chlorine + Processing Margin), benchmark against live feedstock prices, and instantly surface the **theoretical floor cost** — revealing hidden supplier margins and identifying price gouging with precision.
+
+### 🤖 Contextual AI Procurement Advisor
+Integrates the **GNews API** for live market news ingestion and **Groq (Llama-3)** for sub-second inference. The advisor produces:
+- A **Bullish / Bearish / Neutral** market sentiment verdict
+- Specific, time-bound **procurement directives** (e.g., *"Feedstock volatility elevated — lock in Q3 contracts before Friday's OPEC decision"*)
+
+### 🛡️ Graceful Degradation Engine
+No API keys? No internet? No problem. A **deterministic pseudo-random mock data engine** ensures every chart, metric, and UI component renders with realistic data in all environments — making demos, reviews, and local development seamless without any configuration.
+
+### 📄 Export-Ready Negotiation Briefs
+One-click generation of clean, print-optimized **Negotiation Brief** documents. Structured for direct attachment to supplier emails — market data, cost breakdowns, and AI directives formatted for executive and procurement audiences.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js (App Router), React, TypeScript |
+| Styling | Tailwind CSS |
+| Data Visualization | Recharts |
+| Icons | Lucide React |
+| AI Inference | Groq API — Llama-3 |
+| Market News | GNews API |
+| Energy Data | U.S. EIA API |
+| Macro Data | FRED API (Federal Reserve) |
+| Deployment | Vercel |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js `v18.0` or higher
+- npm `v9.0` or higher
+
+### Installation
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/Sanidhya-14/adsy_market_tool.git
+cd adsy_market_tool
+```
+
+**2. Install dependencies**
+
+```bash
+npm install
+```
+
+**3. Configure environment variables**
+
+```bash
+cp .env.local.example .env.local
+```
+
+Open `.env.local` and populate your API keys:
+
+```env
+# AI Inference — https://console.groq.com/keys
+GROQ_API_KEY=your_groq_api_key
+
+# Market News — https://gnews.io/
+GNEWS_API_KEY=your_gnews_api_key
+
+# Energy Data — https://www.eia.gov/opendata/
+EIA_API_KEY=your_eia_api_key
+
+# Macro / Commodity Data — https://fred.stlouisfed.org/docs/api/api_key.html
+FRED_API_KEY=your_fred_api_key
+```
+
+> **Note:** All API keys are optional. If any key is absent or a request fails, the platform automatically falls back to its built-in mock data engine. The full UI remains functional and presentable in all states.
+
+**4. Start the development server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**5. Open in browser**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+adsy_market_tool/
+├── app/
+│   ├── api/               # Next.js API routes (data fetchers, AI endpoints)
+│   ├── commodity/         # Commodity detail pages
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx           # Main dashboard entry point
+├── components/            # Reusable UI components
+├── lib/                   # Utility functions, mock data engine, proxy models
+├── public/
+├── .env.local.example
+└── README.md
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔑 API Keys & Data Sources
 
-## Deploy on Vercel
+| Service | Purpose | Free Tier |
+|---|---|---|
+| [Groq](https://console.groq.com/) | Llama-3 AI inference for market sentiment | ✅ Yes |
+| [GNews](https://gnews.io/) | Real-time chemical & commodity news | ✅ Yes |
+| [U.S. EIA](https://www.eia.gov/opendata/) | Crude oil, natural gas, energy pricing | ✅ Yes |
+| [FRED](https://fred.stlouisfed.org/docs/api/api_key.html) | Macro commodity indices, PPI data | ✅ Yes |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All services listed above offer free-tier API access sufficient for development and demonstration use.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🤝 Contributing
+
+Contributions, issue reports, and feature requests are welcome.
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m 'feat: add your feature'`
+4. Push to branch: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+Please follow the existing code style and include relevant tests where applicable.
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
+
+---
+
+<div align="center">
+
+**Adsy Global: Procurement Intelligence Platform**
+
+Engineered by **Sanidhya Kumar Ghosal**
+
+*Adsy Global Solutions · 2025*
+
+[GitHub](https://github.com/Sanidhya-14/adsy_market_tool) · [Report an Issue](https://github.com/Sanidhya-14/adsy_market_tool/issues)
+
+</div>
