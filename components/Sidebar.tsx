@@ -1,10 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Pin, PinOff, TrendingUp, TrendingDown, Activity, Star, CircleX } from 'lucide-react';
+import Image from 'next/image';
+import { Pin, TrendingUp, TrendingDown, Activity, Star, CircleX, Mail, Phone, LogOut } from 'lucide-react';
 import { COMMODITIES, Commodity } from '@/lib/commodities';
 import { getCurrentPrice, getPriceChange } from '@/lib/mockData';
 import TrustBadge from './TrustBadge';
+import { logout } from '@/app/actions/auth';
 
 const WATCHLIST_KEY = 'adsy_watchlist';
 const MAX_PINS = 5;
@@ -39,11 +41,18 @@ export function usePinnedCommodities() {
   return { pinned, togglePin };
 }
 
+
+interface SidebarUser {
+  name: string;
+  email: string;
+}
+
 interface SidebarProps {
   pinned: string[];
   onTogglePin: (id: string) => void;
   isOpen: boolean;
   onClose: () => void;
+  user?: SidebarUser;
 }
 
 function WatchlistItem({ commodity, onRemove }: { commodity: Commodity; onRemove: () => void }) {
@@ -95,10 +104,14 @@ function WatchlistItem({ commodity, onRemove }: { commodity: Commodity; onRemove
   );
 }
 
-export default function Sidebar({ pinned, onTogglePin, isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ pinned, onTogglePin, isOpen, onClose, user }: SidebarProps) {
   const pinnedCommodities = pinned
     .map((id) => COMMODITIES.find((c) => c.id === id))
     .filter(Boolean) as Commodity[];
+
+  const initials = user?.name
+    ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
+    : '?';
 
   return (
     <>
@@ -117,19 +130,15 @@ export default function Sidebar({ pinned, onTogglePin, isOpen, onClose }: Sideba
         }`}
       >
         {/* Brand header */}
-        <div className="p-5 border-b border-slate-800">
+        <div className="p-4 border-b border-slate-800">
           <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-0.5">
-                <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-                <span className="text-xs font-bold text-teal-400 uppercase tracking-widest">
-                  Adsy Global
-                </span>
-              </div>
-              <h1 className="text-sm font-bold text-slate-100 leading-tight">
-                Procurement Intelligence
-              </h1>
-            </div>
+            <Image
+              src="/adsy_logo.png"
+              alt="Adsy Global"
+              width={120}
+              height={48}
+              className="object-contain"
+            />
             <button
               onClick={onClose}
               className="lg:hidden p-1.5 hover:bg-slate-800 rounded-lg"
@@ -185,14 +194,54 @@ export default function Sidebar({ pinned, onTogglePin, isOpen, onClose }: Sideba
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-slate-800">
-          <p className="text-[10px] text-slate-600 text-center">
-            Data refreshes hourly. API keys required for live data.
+        {/* Contact Founder */}
+        <div className="px-4 pt-4 pb-3 border-t border-slate-800">
+          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2.5">
+            Support
           </p>
-          <p className="text-[10px] text-slate-700 text-center mt-0.5">
-            © 2026 Adsy Global
-          </p>
+          <div className="space-y-2">
+            <a
+              href="mailto:Contact@adsyglobal.com"
+              className="flex items-center gap-2.5 text-[11px] text-slate-400 hover:text-teal-400 transition-colors"
+            >
+              <Mail size={11} className="text-slate-600 shrink-0" />
+              <span className="truncate">Contact@adsyglobal.com</span>
+            </a>
+            <a
+              href="tel:+19086551606"
+              className="flex items-center gap-2.5 text-[11px] text-slate-400 hover:text-teal-400 transition-colors"
+            >
+              <Phone size={11} className="text-slate-600 shrink-0" />
+              +1 908-655-1606
+            </a>
+            <a
+              href="tel:+19804239101"
+              className="flex items-center gap-2.5 text-[11px] text-slate-400 hover:text-teal-400 transition-colors"
+            >
+              <Phone size={11} className="text-slate-600 shrink-0" />
+              +1 980-423-9101
+            </a>
+          </div>
+        </div>
+
+        {/* User + Logout */}
+        <div className="px-4 pt-3 pb-4 border-t border-slate-800/60 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-teal-900/60 border border-teal-700/40 flex items-center justify-center text-teal-400 text-xs font-bold shrink-0">
+            {initials}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-slate-200 truncate">{user?.name ?? 'User'}</p>
+            <p className="text-[10px] text-slate-500 truncate">{user?.email ?? ''}</p>
+          </div>
+          <form action={logout}>
+            <button
+              type="submit"
+              title="Sign Out"
+              className="p-1.5 hover:bg-rose-900/30 hover:text-rose-400 text-slate-600 rounded-lg transition-colors"
+            >
+              <LogOut size={14} />
+            </button>
+          </form>
         </div>
       </aside>
     </>

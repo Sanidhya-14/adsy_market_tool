@@ -51,7 +51,12 @@ function TickerTape() {
   );
 }
 
-export default function Dashboard() {
+interface DashboardUser {
+  name: string;
+  email: string;
+}
+
+export default function Dashboard({ user }: { user?: DashboardUser }) {
   const { pinned, togglePin } = usePinnedCommodities();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -79,6 +84,7 @@ export default function Dashboard() {
         onTogglePin={togglePin}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        user={user}
       />
 
       {/* Main content */}
