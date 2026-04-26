@@ -1,0 +1,156 @@
+[
+  {
+    "commodity_name": "Caustic Soda (Sodium Hydroxide)",
+    "tier": 1,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Sodium Chloride (Brine)",
+        "High-voltage Electricity",
+        "Water"
+      ],
+      "demand_sectors": [
+        "Alumina Refining",
+        "Pulp & Paper",
+        "Organic/Inorganic Chemicals",
+        "Water Treatment"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand reliably peaks during the summer as alumina refineries run at full capacity and construction activity accelerates. Furthermore, the pulp and paper sector drives 3-8% price premiums during regional harvest months (Sept-Nov in the Northern Hemisphere).",
+      "bullish_triggers": [
+        "Escalating natural gas and electricity tariffs inflating the baseline cost of electrolysis.",
+        "Geopolitical maritime disruptions that spike ocean freight rates and restrict export flows.",
+        "Severe weather events (e.g., US Gulf hurricanes) forcing widespread preventative plant shutdowns and declaring force majeure."
+      ],
+      "bearish_triggers": [
+        "Aggressive capacity additions and export dumping from Chinese producers creating vast regional oversupply.",
+        "Contractions in the global aluminum or paper packaging markets leading to immediate demand destruction.",
+        "Widespread industrial slowdowns reducing overall chemical sector operating rates and inventory procurement."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2017–2018 European Mercury Phase-out",
+        "market_reaction": "The legal mandate to close mercury-based electrolysis cells permanently erased ~1.0 million dmt of European caustic soda capacity. Contract prices surged over €100/dmt in a single quarter, peaking at €800/dmt in Southern Europe. The region transitioned into a structural net-importer, permanently altering transatlantic chemical trade flows and elevating regional baseline costs."
+      },
+      {
+        "event_type": "2021 Texas Winter Freeze (Storm Uri)",
+        "market_reaction": "Plunging temperatures crippled natural gas infrastructure, sending energy prices to the $9,000/MWh regulatory cap. The US Gulf Coast chemical complex executed emergency shutdowns, erasing ~50% of national processing capacity. Export spot prices spiked 27% immediately, causing vast global shortages that disrupted the chemical value chain for the remainder of the year and fueled severe inflation."
+      },
+      {
+        "event_type": "2021 China Dual Control Policy",
+        "market_reaction": "Chinese authorities strictly curtailed the operating rates of highly energy-intensive chlor-alkali plants to meet emissions targets. The resulting evaporation of Chinese caustic soda exports created extreme tightness in the global market, propelling prices to historic multi-year highs globally when combined with post-pandemic restocking."
+      },
+      {
+        "event_type": "2024–2026 Middle East Freight Shocks",
+        "market_reaction": "Rerouted shipping drastically tightened vessel availability, spiking caustic soda ocean freight rates by up to 50% (reaching $180/dmt to South America). Concurrent force majeures in Asian petrochemical plants shifted vast global demand toward the US, inflating North American export prices by 3.7% in a single month and establishing a high risk-premium across the market."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Liquid Chlorine",
+    "tier": 1,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Sodium Chloride (Brine)",
+        "High-voltage Electricity",
+        "Water"
+      ],
+      "demand_sectors": [
+        "PVC Manufacturing (Construction)",
+        "Organic Chemicals (EDC/VCM)",
+        "Semiconductor Fabrication",
+        "Water Treatment"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Closely mirrors the global construction cycle, peaking decisively during spring and summer months when weather permits large-scale infrastructure development and residential building activity.",
+      "bullish_triggers": [
+        "Global infrastructure stimulus packages driving mass consumption of PVC piping and siding.",
+        "Rapid expansion of semiconductor foundries requiring vast quantities of ultra-pure hydrochloric acid.",
+        "Sustained downturns in caustic soda demand forcing chlor-alkali operating rate cuts, thereby tightening the baseline chlorine supply."
+      ],
+      "bearish_triggers": [
+        "Rising global interest rates stagnating residential construction and heavily suppressing PVC demand.",
+        "Stringent environmental regulations and compliance penalties regarding dioxin/furan emissions forcing capacity closures.",
+        "Excessive electricity tariffs rendering domestic chlorine electrolysis financially unsustainable compared to imported derivatives."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 Texas Winter Freeze (Storm Uri)",
+        "market_reaction": "Plunging temperatures crippled natural gas infrastructure, sending energy prices to the $9,000/MWh regulatory cap. The US Gulf Coast chemical complex executed emergency shutdowns, erasing ~50% of national processing capacity. Export spot prices spiked 27% immediately, causing vast global shortages that disrupted the chemical value chain for the remainder of the year and fueled severe inflation."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Caustic Potash (Potassium Hydroxide)",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Potassium Chloride (KCl)",
+        "High-voltage Electricity",
+        "Water"
+      ],
+      "demand_sectors": [
+        "Liquid Fertilizers (Potassium Phosphates)",
+        "Premium Liquid Soaps/Detergents",
+        "Alkaline Batteries"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Firmly tethered to the agricultural cycle. Demand and pricing surge during late winter and spring as chemical manufacturers formulate fertilizers ahead of primary planting seasons.",
+      "bullish_triggers": [
+        "Global expansion of high-yield precision agriculture demanding highly soluble potassium phosphates.",
+        "Exponential surges in alkaline battery manufacturing for consumer electronics and green energy grids.",
+        "Geopolitical or labor disruptions in the upstream potassium chloride mining supply chain."
+      ],
+      "bearish_triggers": [
+        "Global agricultural slumps or severe drought conditions drastically reducing fertilizer application rates.",
+        "Massive oversupply conditions in the global potash mining industry collapsing raw material input costs.",
+        "General macroeconomic downturns suppressing consumer demand for premium liquid soaps and detergents."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2024–2026 Middle East Freight Shocks",
+        "market_reaction": "Rerouted shipping drastically tightened vessel availability, spiking caustic soda ocean freight rates by up to 50% (reaching $180/dmt to South America). Concurrent force majeures in Asian petrochemical plants shifted vast global demand toward the US, inflating North American export prices by 3.7% in a single month and establishing a high risk-premium across the market."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Chlorinated Polyethylene (CPE)",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "High-Density Polyethylene (HDPE)",
+        "Liquid Chlorine"
+      ],
+      "demand_sectors": [
+        "PVC Impact Modification (Pipes/Profiles)",
+        "EV Wire & Cable Jacketing",
+        "Industrial Hoses",
+        "Smart Roofing Membranes"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand traditionally elevated during the summer construction season when rigid PVC output peaks; however, EV and renewable energy applications are increasingly smoothing demand into a year-round baseline.",
+      "bullish_triggers": [
+        "Unprecedented global expansion in EV manufacturing requiring heat and oil-resistant cable jacketing.",
+        "Large-scale infrastructure and smart-city piping upgrades in emerging markets (e.g., India, ASEAN).",
+        "Surges in upstream petrochemical (HDPE) or Chlorine spot prices translating directly into higher finished polymer valuations."
+      ],
+      "bearish_triggers": [
+        "Escalating ESG regulations and public procurement bans in the EU pushing buyers toward low-smoke, halogen-free (LSHF) alternatives.",
+        "Macroeconomic slumps in global real estate and commercial construction dampening PVC demand.",
+        "Advancements in alternative elastomer technologies (e.g., TPV, SEBS) eroding CPE's market share in highly regulated jurisdictions."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 Texas Winter Freeze (Storm Uri)",
+        "market_reaction": "Plunging temperatures crippled natural gas infrastructure, sending energy prices to the $9,000/MWh regulatory cap. The US Gulf Coast chemical complex executed emergency shutdowns, erasing ~50% of national processing capacity. Export spot prices spiked 27% immediately, causing vast global shortages that disrupted the chemical value chain for the remainder of the year and fueled severe inflation."
+      }
+    ]
+  }
+]

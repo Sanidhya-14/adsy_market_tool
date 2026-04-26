@@ -1,0 +1,115 @@
+[
+  {
+    "commodity_name": "Acrylonitrile",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Propylene",
+        "Ammonia",
+        "Propane"
+      ],
+      "demand_sectors": [
+        "Acrylonitrile Butadiene Styrene (ABS) & Styrene Acrylonitrile (SAN) Resins",
+        "Acrylic Fibers",
+        "Acrylamide and Adiponitrile",
+        "Carbon Fiber"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand reliably peaks in the late winter and early spring (Q1) driven by aggressive seasonal restocking ahead of the Lunar New Year and peak automotive manufacturing cycles, followed by destocking and softer procurement in the summer.",
+      "bullish_triggers": [
+        "Upstream olefin disruptions, such as unplanned steam-cracker outages, constricting propylene supply.",
+        "Geopolitical freight shocks disrupting global crude and naphtha flows, triggering cascading cost-push inflation."
+      ],
+      "bearish_triggers": [
+        "Aggressive commissioning of massive new ammoxidation units, particularly in China, creating persistent structural oversupply.",
+        "Weak profitability in the synthetic rubber and ABS compounding sectors forcing downstream buyers to retreat from the spot market."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 US Gulf Coast Freeze (Winter Storm Uri)",
+        "market_reaction": "Rolling blackouts and freezing temperatures took 95% of US ethylene and propylene feedstock offline, forcing immediate force majeure declarations. Spot prices shot up dramatically as buyers scrambled, and the broader US basic organic chemicals PPI surged 10.4% in a single month."
+      },
+      {
+        "event_type": "2022 European Energy Crisis",
+        "market_reaction": "A 15-fold surge in wholesale energy prices following decoupling from Russian natural gas rendered European production economically unviable. Producers slashed operating rates, transatlantic supply shifts tightened global balances, and CFR Northeast Asia spot prices skyrocketed by 75%."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Acetic Acid",
+    "tier": 1,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Methanol",
+        "Carbon Monoxide"
+      ],
+      "demand_sectors": [
+        "Vinyl Acetate Monomer (VAM)",
+        "Purified Terephthalic Acid (PTA)",
+        "Acetate Esters",
+        "Acetic Anhydride"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand spikes distinctly in the spring and summer months, driven by favorable weather accelerating global construction and renovation activities, which heavily consumes VAM-based paints and sealants.",
+      "bullish_triggers": [
+        "Methanol feedstock surges caused by coal supply disruptions in China or natural gas spikes in the US.",
+        "Scheduled or unscheduled maintenance at major US Gulf Coast acetyl facilities tightening allocations and triggering preemptive restocking.",
+        "Logistical chokepoints in major shipping canals elevating freight costs and restricting inter-regional arbitrage."
+      ],
+      "bearish_triggers": [
+        "Aggressive commissioning of new acetyl chain mega-plants in China flooding the global market.",
+        "High interest rates or economic recessions stifling global housing markets and VAM demand.",
+        "Collapsing natural gas prices removing the underlying cost support for syngas and methanol production."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 US Gulf Coast Freeze",
+        "market_reaction": "The sudden loss of heat, power, and syngas feedstocks led to massive curtailments and extended force majeure declarations by major producers. Spot availability vanished, and downstream manufacturers engaged in desperate bidding wars as prices rocketed."
+      },
+      {
+        "event_type": "2022 European Energy Crisis and Rhine River Drought",
+        "market_reaction": "Exponential surges in natural gas costs forced plant idlings, while a historic drought dropped Rhine River levels, restricting barge capacity to 25-35%. This gridlock stranded raw materials at coastal ports, drove intra-European freight surcharges to record highs, and decimated chemical competitiveness."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Acetonitrile",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Crude Acetonitrile Byproduct Stream"
+      ],
+      "demand_sectors": [
+        "Pharmaceutical Synthesis and HPLC",
+        "Biotechnology and Agrochemicals",
+        "Advanced Electronics (Battery Electrolytes)"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand peaks in mid-spring and early autumn corresponding to FDA/EMA regulatory drug manufacturing campaigns, followed by price softening in December due to corporate destocking and holiday shutdowns.",
+      "bullish_triggers": [
+        "Acrylonitrile run-rate reductions due to weak macroeconomic conditions, which instantly erases the crude acetonitrile byproduct stream.",
+        "Geopolitical freight delays from China, where over 55% of global purification capacity resides.",
+        "Pandemic or epidemic outbreaks mandating exponential increases in diagnostic testing, drug trials, and vaccine synthesis."
+      ],
+      "bearish_triggers": [
+        "Strong macroeconomic conditions in the construction and automotive sectors maximizing acrylonitrile output and flooding the market with surplus byproduct.",
+        "Widespread implementation of onsite fractional distillation recovery systems by major biopharma conglomerates dampening net virgin procurement."
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2008–2009 Global Recession (The Great Acetonitrile Shortage)",
+        "market_reaction": "A collapse in consumer spending devastated automotive manufacturing, forcing acrylonitrile plants to drastically curtail production. The global feed of raw acetonitrile ceased almost overnight, skyrocketing prices past USD 1,000 per case and jeopardizing drug supply chains."
+      },
+      {
+        "event_type": "COVID-19 Pandemic (2020–2022)",
+        "market_reaction": "Early lockdowns stalled acrylonitrile production, choking off the byproduct feed exactly as global healthcare mobilized for unprecedented vaccine research. Inelastic pharmaceutical solvent demand stripped all global inventories, spiking the US price index by over 22% and forcing structural investments into solvent recovery."
+      }
+    ]
+  }
+]

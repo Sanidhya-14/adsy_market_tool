@@ -1,0 +1,49 @@
+{
+  "commodity_name": "Aromatics Complex",
+  "tier": 1,
+  "fundamental_drivers": {
+    "feedstocks": [
+      "Straight-run Naphtha / Petroleum",
+      "Pyrolysis Gasoline (Pygas)",
+      "Coal Tar",
+      "Refinery-grade Propylene"
+    ],
+    "demand_sectors": [
+      "Plastics & Polymers",
+      "Automotive & Transportation",
+      "Paints, Coatings & Adhesives",
+      "Pharmaceuticals & Agrochemicals"
+    ]
+  },
+  "market_behavior": {
+    "seasonality": "BTX pricing typically peaks during the Northern Hemisphere's summer driving season, as lower vapor pressure mandates incentivize refiners to retain heavy aromatics in the gasoline pool for their octane value. Prices generally soften in winter due to ebbing gasoline demand, slowed construction cycles, and planned petrochemical facility maintenance.",
+    "bullish_triggers": [
+      "Geopolitical supply shocks that tighten global crude oil and naphtha availability.",
+      "Elevated octane premiums that incentivize refiners to maximize motor fuel yield over chemical extraction.",
+      "Unplanned outages and force majeures in concentrated mega-hubs like the U.S. Gulf Coast."
+    ],
+    "bearish_triggers": [
+      "Massive capital expenditure and mega-complex commissioning in Asia-Pacific systematically oversupplying the merchant market.",
+      "Macroeconomic recessions and high interest rates triggering downstream demand destruction in durable goods and packaging.",
+      "Structural regulatory constraints, including strict caps on Volatile Organic Compounds (VOCs) and single-use plastics phase-downs."
+    ]
+  },
+  "historical_crisis_patterns": [
+    {
+      "event_type": "Hurricane Harvey (August 2017)",
+      "market_reaction": "Historic flooding paralyzed the U.S. Gulf Coast, forcing widespread emergency facility shutdowns. The instantaneous removal of capacity severely tightened global aromatics markets while triggering massive releases of toxic chemical pollutants."
+    },
+    {
+      "event_type": "Texas Winter Freeze / Winter Storm Uri (February 2021)",
+      "market_reaction": "Catastrophic power grid failure collapsed continuous-process chemical manufacturing across Texas, prompting immediate force majeure declarations. The severe deficit in prompt material drove the North American Benzene Price Index up 4.67% quarter-over-quarter as logistics premiums surged."
+    },
+    {
+      "event_type": "The European Energy Crisis (2022)",
+      "market_reaction": "Record-high natural gas and electricity prices inverted production economics, rendering European BTX extraction financially unviable. The crisis forced the permanent closure of nearly 2 million metric tons of regional capacity, cementing Europe as a structural net importer."
+    },
+    {
+      "event_type": "The Red Sea Shipping Crisis (Early 2024)",
+      "market_reaction": "Attacks in the Red Sea forced vessel detours around the Cape of Good Hope, drastically restricting Middle Eastern naphtha flows. Extended shipping times skyrocketed freight premiums and distorted import parity spreads, causing acute prompt supply shortages in destination markets."
+    }
+  ]
+}

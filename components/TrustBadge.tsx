@@ -1,5 +1,5 @@
 'use client';
-import { ShieldCheck, Star } from 'lucide-react';
+import { ShieldCheck, Activity } from 'lucide-react';
 
 interface TrustBadgeProps {
   label: string;
@@ -8,19 +8,29 @@ interface TrustBadgeProps {
 }
 
 export default function TrustBadge({ label, color, size = 'sm' }: TrustBadgeProps) {
-  const isGreen = color === 'green';
-  const iconSize = size === 'sm' ? 10 : 12;
-  const textSize = size === 'sm' ? 'text-[10px]' : 'text-xs';
+  const isGreen   = color === 'green';
+  const iconSize  = size === 'sm' ? 10 : 12;
+  const textSize  = size === 'sm' ? 'text-[10px]' : 'text-xs';
 
   return (
     <span
-      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-semibold border ${textSize} ${
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-semibold border ${textSize}`}
+      style={
         isGreen
-          ? 'bg-emerald-950/80 text-emerald-400 border-emerald-700/50'
-          : 'bg-amber-950/80 text-amber-400 border-amber-700/50'
-      }`}
+          ? {
+              backgroundColor: 'var(--up-muted)',
+              color:           'var(--up)',
+              borderColor:     'var(--up)',
+              opacity: 0.9,
+            }
+          : {
+              backgroundColor: 'var(--accent-bg)',
+              color:           'var(--accent)',
+              borderColor:     'var(--accent-border)',
+            }
+      }
     >
-      {isGreen ? <ShieldCheck size={iconSize} /> : <Star size={iconSize} />}
+      {isGreen ? <ShieldCheck size={iconSize} /> : <Activity size={iconSize} />}
       {label}
     </span>
   );

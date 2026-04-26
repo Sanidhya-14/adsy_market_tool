@@ -1,0 +1,198 @@
+[
+  {
+    "commodity_name": "Crude Oil",
+    "tier": 1,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Unrefined petroleum",
+        "Kerogen",
+        "Hydrocarbons"
+      ],
+      "demand_sectors": [
+        "Petrochemicals (Naphtha/LPG)",
+        "Transportation fuels",
+        "Aviation",
+        "Industrial manufacturing"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Global consumption typically decreases by 1-2 million barrels daily in Q1 due to post-holiday industrial slowdowns and the end of winter heating. Demand accelerates sharply in Q2 and Q3, driven by the summer driving season and peak global aviation activity.",
+      "bullish_triggers": [
+        "Coordinated OPEC+ production cuts designed to drain on-water inventories",
+        "Unplanned infrastructure outages",
+        "Geopolitical conflicts threatening major maritime transit chokepoints like the Strait of Hormuz"
+      ],
+      "bearish_triggers": [
+        "Higher interest rate environments that suppress industrial manufacturing capacity",
+        "Continuous accumulation of floating storage and on-water sanctioned oil",
+        "Aggressive non-OPEC+ production growth generating structural inventory overhangs"
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2026 Strait of Hormuz Closure",
+        "market_reaction": "The closure trapped millions of barrels in the Persian Gulf, forcing nations to shut in production due to an inability to safely transit tankers. Brent crude surged from $61 to $118 per barrel, widening the spread with WTI to an unprecedented $25."
+      },
+      {
+        "event_type": "2021 North American Winter Freeze",
+        "market_reaction": "Prolonged freezing paralyzed the Texas energy grid and forced the shut-in of over 1 million barrels per day of crude output. This tightened physical markets globally, establishing a persistent bullish premium as international refineries aggressively drew down existing inventories."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Natural Gas",
+    "tier": 1,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Methane",
+        "Associated gas from crude oil extraction",
+        "Shale deposits"
+      ],
+      "demand_sectors": [
+        "Electric power generation",
+        "Residential and commercial space heating",
+        "Heavy industrial manufacturing",
+        "Liquefied Natural Gas (LNG) exports"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand experiences intense, inelastic peaks during the winter heating season (Nov-Mar), with a secondary peak in mid-summer for electric cooling. The temperate shoulder seasons see waning demand, allowing for inventory storage injections.",
+      "bullish_triggers": [
+        "Late-season Arctic cold snaps that rapidly draw down depleted storage",
+        "Unexpected mechanical outages at major LNG liquefaction facilities",
+        "Severe winter weather events causing wellhead freeze-offs"
+      ],
+      "bearish_triggers": [
+        "Warmer-than-normal winter temperatures heavily suppressing space-heating demand",
+        "Excessive associated gas production from active crude oil drilling operations",
+        "Stranded molecules due to overwhelmed local pipeline takeaway capacity"
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 Texas Winter Freeze (Winter Storm Uri)",
+        "market_reaction": "Deep Arctic cold drove record heating demand while freezing un-winterized wellheads, plunging Texas production by 15%. The resulting systemic grid collapse spiked Henry Hub spot prices to an astronomical $23.86/MMBtu, forcing heavy industries into immediate force majeure."
+      },
+      {
+        "event_type": "2022 European Energy Crisis",
+        "market_reaction": "Following the war in Ukraine, Russian pipeline gas flows to Europe were curtailed by over half. Panic-buying of global LNG surged TTF prices above €300/MWh, resulting in a staggering 19% structural demand destruction across European energy-intensive industries."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Naphtha",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Crude oil",
+        "Condensates",
+        "Natural gas liquids"
+      ],
+      "demand_sectors": [
+        "Petrochemical steam cracking (ethylene/propylene)",
+        "Gasoline blending",
+        "Aromatics manufacturing",
+        "Industrial solvents and specialties"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand tightens during the summer months as refiners dynamically divert light naphtha streams into the gasoline blending pool to meet peak driving season requirements, elevating petrochemical procurement costs.",
+      "bullish_triggers": [
+        "Robust consumer demand for end-use plastics and synthetic textiles",
+        "Supply disruptions in parallel petrochemical feedstocks like LPG",
+        "Elevated crude oil input costs and planned refinery turnarounds"
+      ],
+      "bearish_triggers": [
+        "Macroeconomic downturns depressing industrial and consumer demand for plastics",
+        "Overproduction by major Middle Eastern refining complexes resulting in export supply gluts",
+        "Reduced gasoline blending requirements during the winter months"
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2026 Middle East Naphtha Crisis",
+        "market_reaction": "The Strait of Hormuz closure and Qatari LPG halts forced petrochemical plants to aggressively substitute with naphtha. Prices skyrocketed 88% to $918/tonne, causing rare, devastating negative-margin inversions and force majeures across Asian plastic producers."
+      },
+      {
+        "event_type": "2022 Post-Invasion Supply Realignment",
+        "market_reaction": "Sanctions removed vast volumes of Russian naphtha from European and Asian markets, forcing a desperate pivot to alternative supplies. Bidding wars for Middle Eastern and US cargoes drove Asian refining margins to multi-year highs of $173 per tonne."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Ethanol",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Corn",
+        "Sugarcane",
+        "Biomass"
+      ],
+      "demand_sectors": [
+        "Transportation fuels (gasoline blending agent)",
+        "Industrial chemicals",
+        "Pharmaceutical applications",
+        "Cosmetics and sanitization products"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Prices typically soften during regional harvest periods (autumn in the US, spring in Brazil) due to peak feedstock availability. Demand tracks standard gasoline seasonality, spiking during the summer driving season.",
+      "bullish_triggers": [
+        "Agricultural distress such as prolonged droughts, floods, or early frosts",
+        "Governmental policy shifts increasing mandatory renewable fuel blending volumes",
+        "Surges in global crude oil and wholesale gasoline prices"
+      ],
+      "bearish_triggers": [
+        "Bumper agricultural harvests flooding the market with cheap feedstock",
+        "Steep declines in global sugar prices incentivizing mills to maximize ethanol distillation",
+        "Aggressive dumping of discounted export cargoes into international hubs"
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 Brazilian Drought and Frost",
+        "market_reaction": "Severe drought and frosts decimated Brazil's sugarcane yields, reducing crushed volume by over 5%. The supply shock sent hydrous ethanol prices soaring 50%, exacerbated by mills artificially sustaining the pricing floor by heavily hedging towards high-priced sugar instead."
+      },
+      {
+        "event_type": "2026 Structural Oversupply and Margin Crush",
+        "market_reaction": "Excellent agricultural weather and crashing international sugar prices led to a massive 36.9 billion liter overproduction cycle in Brazil. Wholesale prices plummeted, causing a severe margin crush for producers globally as supply vastly outpaced domestic and export demand."
+      }
+    ]
+  },
+  {
+    "commodity_name": "Gasoline",
+    "tier": 2,
+    "fundamental_drivers": {
+      "feedstocks": [
+        "Crude oil",
+        "Naphtha",
+        "Ethanol",
+        "Alkylates"
+      ],
+      "demand_sectors": [
+        "Passenger transportation",
+        "Light commercial vehicles",
+        "Retail fuel distribution"
+      ]
+    },
+    "market_behavior": {
+      "seasonality": "Demand and pricing peak massively during the summer driving season (Q2-Q3) due to increased consumer travel and the higher production cost of legally mandated, less-volatile summer-blend formulations.",
+      "bullish_triggers": [
+        "Cyber-physical attacks on critical midstream pipeline distribution infrastructure",
+        "Hurricane landfalls in major refining hubs forcing the preventative shutdown of distillation units",
+        "Unplanned refinery maintenance, fires, or force majeures reducing regional output"
+      ],
+      "bearish_triggers": [
+        "Severe macroeconomic recessions that aggressively curtail consumer spending and mobility",
+        "High domestic inventory builds reported during the winter months",
+        "Unexpected releases from strategic national petroleum reserves"
+      ]
+    },
+    "historical_crisis_patterns": [
+      {
+        "event_type": "2021 Colonial Pipeline Cyberattack",
+        "market_reaction": "A highly targeted ransomware attack forced operators to shut down physical systems on the primary US East Coast fuel artery for six days. The localized supply chain collapse triggered massive panic buying, drained retail stations, and spiked national average prices to a 7-year high of $3.04 per gallon."
+      }
+    ]
+  }
+]
