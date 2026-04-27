@@ -1,8 +1,6 @@
 import { NextRequest } from 'next/server';
 import { getCommodityById } from '@/lib/commodities';
 
-const GNEWS_BASE = 'https://gnews.io/api/v4/search';
-
 export interface NewsArticle {
   title: string;
   description: string | null;
@@ -26,28 +24,32 @@ export async function GET(
     return Response.json({ error: 'GNEWS_API_KEY not configured' }, { status: 500 });
   }
 
-  const url = new URL(GNEWS_BASE);
-  url.searchParams.set('q', `${commodity.name} price market`);
-  url.searchParams.set('token', gnewsKey);
-  url.searchParams.set('lang', 'en');
-  url.searchParams.set('max', '5');
-  url.searchParams.set('sortby', 'publishedAt');
+  const searchQuery = `"${commodity.name}" AND market`;
+  const encodedQuery = encodeURIComponent(searchQuery);
+  const newsUrl = `https://gnews.io/api/v4/search?q=${encodedQuery}&lang=en&max=5&sortby=publishedAt&token=${gnewsKey}`;
 
-  const res = await fetch(url.toString(), { next: { revalidate: 1800 } });
-  if (!res.ok) {
-    return Response.json({ error: 'Failed to fetch news' }, { status: 502 });
+  try {
+    const newsRes = await fetch(newsUrl, { next: { revalidate: 1800 } });
+    const newsData = await newsRes.json();
+
+    if (!newsRes.ok || !newsData.articles) {
+      console.error(`GNews API failed for ${commodity.name}:`, newsData);
+      return Response.json({ articles: [] });
+    }
+
+    const articles: NewsArticle[] = newsData.articles.slice(0, 5).map(
+      (a: NewsArticle) => ({
+        title: a.title,
+        description: a.description ?? null,
+        url: a.url,
+        publishedAt: a.publishedAt,
+        source: { name: a.source.name },
+      })
+    );
+
+    return Response.json({ articles });
+  } catch (error) {
+    console.error('Network error fetching news:', error);
+    return Response.json({ articles: [] });
   }
-
-  const data = await res.json();
-  const articles: NewsArticle[] = (data.articles ?? []).slice(0, 5).map(
-    (a: NewsArticle) => ({
-      title: a.title,
-      description: a.description ?? null,
-      url: a.url,
-      publishedAt: a.publishedAt,
-      source: { name: a.source.name },
-    })
-  );
-
-  return Response.json({ articles });
 }

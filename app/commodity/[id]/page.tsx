@@ -9,7 +9,7 @@ import {
 import { getCommodityById } from '@/lib/commodities';
 import { getCurrentPrice, getPriceChange } from '@/lib/mockData';
 import CommodityChart from '@/components/CommodityChart';
-import SentimentCard from '@/components/SentimentCard';
+import NewsCard from '@/components/NewsCard';
 import TrustBadge from '@/components/TrustBadge';
 import ExportButton from '@/components/ExportButton';
 import PriceAlertModal from '@/components/PriceAlertModal';
@@ -172,13 +172,13 @@ export default function CommodityDetailPage({
             <CommodityChart commodity={commodity} height={420} />
           </div>
 
-          {/* ── AI Sentiment ── */}
+          {/* ── Latest News ── */}
           <div className="mb-6">
             <h2 className="font-semibold text-base mb-3" style={{ color: 'var(--foreground)' }}>
-              AI Procurement Advisor
+              Latest News
             </h2>
             <div className="max-w-2xl">
-              <SentimentCard commodityId={commodity.id} commodityName={commodity.name} />
+              <NewsCard commodityId={commodity.id} />
             </div>
           </div>
 
