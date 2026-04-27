@@ -117,7 +117,7 @@ export default function Dashboard({ user }: { user?: DashboardUser }) {
 
           <div>
             <h2 className="font-bold text-base leading-tight" style={{ color: 'var(--foreground)' }}>
-              Market Dashboard
+              Market Intelligence Dashboard
             </h2>
             <p className="text-[11px]" style={{ color: 'var(--muted)' }}>
               {COMMODITIES.length} commodities tracked · Updated hourly
