@@ -52,7 +52,12 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    await createSession({ id: user._id.toString(), email: user.email, name: user.name });
+    await createSession({
+      id: user._id.toString(),
+      email: user.email,
+      name: user.name,
+      industryMode: user.industryMode ?? 'specialty-chem',
+    });
 
     // Clear the state cookie
     const res = NextResponse.redirect(new URL('/', appUrl));

@@ -29,7 +29,12 @@ export async function login(_state: AuthState, formData: FormData): Promise<Auth
       return { error: 'Invalid email or password.' };
     }
 
-    await createSession({ id: user._id.toString(), email: user.email, name: user.name });
+    await createSession({
+      id: user._id.toString(),
+      email: user.email,
+      name: user.name,
+      industryMode: user.industryMode ?? 'specialty-chem',
+    });
   } catch {
     return { error: 'Something went wrong. Please try again.' };
   }
@@ -61,7 +66,12 @@ export async function register(_state: AuthState, formData: FormData): Promise<A
     const hashed = await bcrypt.hash(password, 12);
     const user = await User.create({ name, email: email.toLowerCase(), password: hashed });
 
-    await createSession({ id: user._id.toString(), email: user.email, name: user.name });
+    await createSession({
+      id: user._id.toString(),
+      email: user.email,
+      name: user.name,
+      industryMode: user.industryMode ?? 'specialty-chem',
+    });
   } catch {
     return { error: 'Something went wrong. Please try again.' };
   }

@@ -1,36 +1,55 @@
 'use client';
-import { useState } from 'react';
-import { Search, Menu, Zap, FlaskConical, Beaker, Atom } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Menu } from 'lucide-react';
 import Link from 'next/link';
-import { COMMODITIES, Commodity } from '@/lib/commodities';
+import { COMMODITIES, getCommoditiesForMode, type Commodity, type IndustryMode } from '@/lib/commodities';
 import { getCurrentPrice, getPriceChange } from '@/lib/mockData';
 import CommodityCard from './CommodityCard';
 import Sidebar, { usePinnedCommodities } from './Sidebar';
 import ThemeToggle from './ThemeToggle';
+import IndustryModeSwitcher from './IndustryModeSwitcher';
+import SectionTabs from './SectionTabs';
+import DrugShortagesFeed from './DrugShortagesFeed';
+import ClinicalPipelineFeed from './ClinicalPipelineFeed';
 
-// ── Tab definitions ──────────────────────────────
-const TABS = ['All', 'Energy', 'BioChemical', 'Petrochemical', 'Chemicals'] as const;
-type Tab = typeof TABS[number];
+// Special-case feed tabs that render non-card views
+const FEED_TABS = new Set(['drug-shortages', 'clinical-pipeline']);
 
-// Map existing commodity categories → new tab names
-const CATEGORY_TO_TAB: Record<string, Tab> = {
-  'Energy':          'Energy',
-  'Bio-Chemicals':   'BioChemical',
-  'Polymers':        'Chemicals',
-  'Petrochemicals':  'Petrochemical',
-  'Olefins':         'Petrochemical',
-  'Aromatics':       'Petrochemical',
-  'Chemicals':       'Chemicals',
-  'Chlor-Alkali':    'Chemicals',
-  'Solvents':        'Chemicals',
+// Tab id → commodity categories to include (empty array = no matching commodities / show empty state)
+const TAB_CATEGORY_MAP: Record<string, string[]> = {
+  // specialty-chem tabs
+  feedstocks:    ['Energy', 'Petrochemicals'],
+  intermediates: ['Aromatics', 'Olefins', 'Chemicals'],
+  polymers:      ['Polymers'],
+  solvents:      ['Solvents'],
+  specialty:     ['Bio-Chemicals', 'Chlor-Alkali'],
+  // life-sciences tabs (apis / excipients have no category yet)
+  apis:          [],
+  excipients:    [],
+  // energy tabs
+  'crude-refined': ['energy-crude'],  // resolved by filterByTab special logic
+  'natural-gas':   ['energy-natgas'], // resolved by filterByTab special logic
+  biofuels:      ['Bio-Chemicals'],
+  power:         [],
 };
 
-const TAB_ICONS: Record<string, React.ElementType> = {
-  Energy:         Zap,
-  BioChemical:    Beaker,
-  Petrochemical:  FlaskConical,
-  Chemicals:      Atom,
-};
+function filterByTab(commodities: Commodity[], tabId: string): Commodity[] {
+  if (tabId === 'all') return commodities;
+
+  // Energy mode special cases
+  if (tabId === 'crude-refined') {
+    return commodities.filter(
+      (c) => c.category === 'Energy' && c.id !== 'natural-gas'
+    );
+  }
+  if (tabId === 'natural-gas') {
+    return commodities.filter((c) => c.id === 'natural-gas');
+  }
+
+  const cats = TAB_CATEGORY_MAP[tabId];
+  if (!cats || cats.length === 0) return [];
+  return commodities.filter((c) => cats.includes(c.category));
+}
 
 // ── Ticker tape ─────────────────────────────────
 function TickerTape() {
@@ -69,25 +88,39 @@ function TickerTape() {
 
 interface DashboardUser { name: string; email: string; }
 
-export default function Dashboard({ user }: { user?: DashboardUser }) {
+interface DashboardProps {
+  user?: DashboardUser;
+  industryMode: IndustryMode;
+}
+
+export default function Dashboard({ user, industryMode }: DashboardProps) {
   const { pinned, togglePin } = usePinnedCommodities();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [search, setSearch]           = useState('');
-  const [activeTab, setActiveTab]     = useState<Tab>('All');
+  const [activeTab, setActiveTab]     = useState('all');
 
-  const filtered = COMMODITIES.filter((c: Commodity) => {
-    const matchSearch =
-      !search ||
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.shortName.toLowerCase().includes(search.toLowerCase()) ||
-      c.category.toLowerCase().includes(search.toLowerCase());
+  // Reset tab when mode changes
+  useEffect(() => {
+    setActiveTab('all');
+  }, [industryMode]);
 
-    const matchTab =
-      activeTab === 'All' ||
-      CATEGORY_TO_TAB[c.category] === activeTab;
+  const modeCommodities = getCommoditiesForMode(industryMode);
 
-    return matchSearch && matchTab;
-  });
+  const filtered = FEED_TABS.has(activeTab)
+    ? []
+    : modeCommodities.filter((c: Commodity) => {
+        const matchSearch =
+          !search ||
+          c.name.toLowerCase().includes(search.toLowerCase()) ||
+          c.shortName.toLowerCase().includes(search.toLowerCase()) ||
+          c.category.toLowerCase().includes(search.toLowerCase());
+
+        const inTab = activeTab === 'all'
+          ? true
+          : filterByTab(modeCommodities, activeTab).some((fc) => fc.id === c.id);
+
+        return matchSearch && inTab;
+      });
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--background)' }}>
@@ -102,6 +135,9 @@ export default function Dashboard({ user }: { user?: DashboardUser }) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden lg:ml-72">
         <TickerTape />
+
+        {/* Industry mode switcher */}
+        <IndustryModeSwitcher currentMode={industryMode} />
 
         {/* Top nav */}
         <header
@@ -147,36 +183,20 @@ export default function Dashboard({ user }: { user?: DashboardUser }) {
           <ThemeToggle />
         </header>
 
-        {/* Tab filter bar */}
-        <div
-          className="no-print shrink-0 px-4 lg:px-6 py-3 border-b flex items-center gap-2 overflow-x-auto scrollbar-hide"
-          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
-        >
-          {TABS.map((tab) => {
-            const Icon = TAB_ICONS[tab];
-            const isActive = activeTab === tab;
-            return (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 shrink-0 whitespace-nowrap"
-                style={{
-                  backgroundColor: isActive ? 'var(--accent)' : 'transparent',
-                  borderColor:     isActive ? 'var(--accent)' : 'var(--border)',
-                  color:           isActive ? '#ffffff'        : 'var(--muted)',
-                  boxShadow:       isActive ? '0 2px 8px rgba(242,112,70,0.35)' : 'none',
-                }}
-              >
-                {Icon && <Icon size={12} />}
-                {tab}
-              </button>
-            );
-          })}
-        </div>
+        {/* Section tabs — key resets internal state when mode changes */}
+        <SectionTabs
+          key={industryMode}
+          mode={industryMode}
+          onTabChange={setActiveTab}
+        />
 
-        {/* Commodity grid */}
+        {/* Main content area */}
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-          {filtered.length === 0 ? (
+          {activeTab === 'drug-shortages' ? (
+            <DrugShortagesFeed />
+          ) : activeTab === 'clinical-pipeline' ? (
+            <ClinicalPipelineFeed />
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-center">
               <Search size={32} className="mb-3" style={{ color: 'var(--border)' }} />
               <p className="font-medium" style={{ color: 'var(--muted)' }}>No commodities found</p>

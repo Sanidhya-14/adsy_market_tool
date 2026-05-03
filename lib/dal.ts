@@ -2,6 +2,7 @@ import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { decrypt } from './session';
+import type { IndustryMode } from './commodities';
 
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value;
@@ -11,7 +12,13 @@ export const verifySession = cache(async () => {
     redirect('/login');
   }
 
-  return { isAuth: true, userId: session.userId, email: session.email, name: session.name };
+  return {
+    isAuth: true,
+    userId: session.userId,
+    email: session.email,
+    name: session.name,
+    industryMode: (session.industryMode ?? 'specialty-chem') as IndustryMode,
+  };
 });
 
 export const getOptionalSession = cache(async () => {

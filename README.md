@@ -19,13 +19,17 @@
 
 ---
 
+> **Note:** This project is currently undergoing a v1 refactor. Some features described below are being significantly expanded or replaced. See AGENTS.md.
+
+---
+
 ## Overview
 
 Chemical procurement teams operate in an environment of **deliberate information asymmetry**. Suppliers control pricing visibility; buyers are left negotiating blind.
 
 **Adsy Global: Procurement Intelligence Platform** closes that gap.
 
-This enterprise dashboard aggregates real-time feedstock prices from authoritative public data sources, applies **should-cost proxy modeling** to opaque specialty chemicals, and runs **live AI sentiment analysis** on market news — delivering procurement teams the hard data and strategic directives they need to walk into supplier negotiations with confidence.
+This enterprise dashboard aggregates real-time feedstock prices from authoritative public data sources and runs **live AI sentiment analysis** on market news — delivering procurement teams the hard data and strategic directives they need to walk into supplier negotiations with confidence.
 
 > *"Know the real cost before the first email. Win the negotiation before the first call."*
 
@@ -33,16 +37,14 @@ This enterprise dashboard aggregates real-time feedstock prices from authoritati
 
 ## ✨ Features
 
-### 📊 Dual-Tier Market Data Strategy
-Real-time API ingestion for **Tier 1 feedstocks** (Crude Oil, Natural Gas, Ethylene, Benzene, and more) via the U.S. EIA and FRED APIs. Tier 2 opaque specialty chemicals are modeled via **proxy composition indices**, converting publicly unavailable pricing into traceable, defensible cost estimates.
+### 📊 Market Data Engine
+Real-time API ingestion for key feedstocks (Crude Oil, Natural Gas, Gasoline, Benzene, and more) via the U.S. EIA and FRED APIs.
 
-### 🧮 Should-Cost Proxy Calculator
-An interactive tool that lets buyers define a specialty chemical's raw material inputs (e.g., HDPE + Chlorine + Processing Margin), benchmark against live feedstock prices, and instantly surface the **theoretical floor cost** — revealing hidden supplier margins and identifying price gouging with precision.
-
-### 🤖 Contextual AI Procurement Advisor
+### 🤖 AI Procurement Advisor
 Integrates the **GNews API** for live market news ingestion and **Groq (Llama-3)** for sub-second inference. The advisor produces:
 - A **Bullish / Bearish / Neutral** market sentiment verdict
 - Specific, time-bound **procurement directives** (e.g., *"Feedstock volatility elevated — lock in Q3 contracts before Friday's OPEC decision"*)
+- Being expanded into a fuller AI Analyzer in v1
 
 ### 🛡️ Graceful Degradation Engine
 No API keys? No internet? No problem. A **deterministic pseudo-random mock data engine** ensures every chart, metric, and UI component renders with realistic data in all environments — making demos, reviews, and local development seamless without any configuration.

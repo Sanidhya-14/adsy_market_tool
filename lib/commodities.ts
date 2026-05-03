@@ -1,5 +1,9 @@
 export type DataSource = 'EIA' | 'FRED';
 
+export type IndustryRelevanceLevel = 'primary' | 'secondary' | 'none';
+
+export type IndustryMode = 'specialty-chem' | 'life-sciences' | 'energy';
+
 export interface Commodity {
   id: string;
   name: string;
@@ -10,13 +14,22 @@ export interface Commodity {
   badgeLabel: string;
   badgeColor: 'green' | 'gold';
   description: string;
-  eiaSeriesId?: string;
-  fredSeriesId?: string;
+  eiaSeriesId?: string | null;
+  fredSeriesId?: string | null;
   basePrice: number;
   volatility: number;
+  pubchemCid?: number | null;
+  pubchemQueryName?: string | null;
+  hsCode?: string;
+  industryRelevance?: {
+    specialtyChem: IndustryRelevanceLevel;
+    lifeSciences: IndustryRelevanceLevel;
+    energy: IndustryRelevanceLevel;
+  };
 }
 
 export const COMMODITIES: Commodity[] = [
+  // ── Original 9 ──────────────────────────────────────────────────────────
   {
     id: 'crude-oil',
     name: 'Crude Oil (WTI)',
@@ -30,6 +43,10 @@ export const COMMODITIES: Commodity[] = [
     eiaSeriesId: 'RWTC',
     basePrice: 78.5,
     volatility: 3.2,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '270900',
+    industryRelevance: { specialtyChem: 'secondary', lifeSciences: 'none', energy: 'primary' },
   },
   {
     id: 'natural-gas',
@@ -44,6 +61,10 @@ export const COMMODITIES: Commodity[] = [
     eiaSeriesId: 'RNGWHHD',
     basePrice: 2.85,
     volatility: 0.35,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '271121',
+    industryRelevance: { specialtyChem: 'secondary', lifeSciences: 'none', energy: 'primary' },
   },
   {
     id: 'gasoline',
@@ -58,6 +79,10 @@ export const COMMODITIES: Commodity[] = [
     eiaSeriesId: 'EER_EPMRR_PF4_RGC_DPG',
     basePrice: 2.65,
     volatility: 0.12,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '271012',
+    industryRelevance: { specialtyChem: 'none', lifeSciences: 'none', energy: 'primary' },
   },
   {
     id: 'ethanol',
@@ -72,6 +97,10 @@ export const COMMODITIES: Commodity[] = [
     fredSeriesId: 'APU000074714',
     basePrice: 1.72,
     volatility: 0.08,
+    pubchemCid: 702,
+    pubchemQueryName: 'ethanol',
+    hsCode: '220710',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'secondary', energy: 'primary' },
   },
   {
     id: 'naphtha',
@@ -82,10 +111,14 @@ export const COMMODITIES: Commodity[] = [
     dataSource: 'FRED',
     badgeLabel: 'Gov: FRED',
     badgeColor: 'green',
-    description: 'Naphtha spot price (Far East/Asia)',
-    fredSeriesId: 'PNAPHTHAUSDM',
+    description: 'US Gulf Coast naphtha (proxy via mock data — no clean US series on FRED free tier)',
+    fredSeriesId: null,
     basePrice: 612,
     volatility: 28,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '271012',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'primary' },
   },
   {
     id: 'methanol',
@@ -96,10 +129,14 @@ export const COMMODITIES: Commodity[] = [
     dataSource: 'FRED',
     badgeLabel: 'Gov: FRED',
     badgeColor: 'green',
-    description: 'Methanol contract price (Europe)',
-    fredSeriesId: 'PMETUSDM',
+    description: 'US methanol contract price (proxy via mock data — no clean US series on FRED free tier)',
+    fredSeriesId: null,
     basePrice: 375,
     volatility: 18,
+    pubchemCid: 887,
+    pubchemQueryName: 'methanol',
+    hsCode: '290511',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'secondary', energy: 'none' },
   },
   {
     id: 'caustic-soda',
@@ -114,6 +151,10 @@ export const COMMODITIES: Commodity[] = [
     fredSeriesId: 'WPU0613020101',
     basePrice: 480,
     volatility: 22,
+    pubchemCid: 14798,
+    pubchemQueryName: 'sodium hydroxide',
+    hsCode: '281512',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'secondary', energy: 'none' },
   },
   {
     id: 'liquid-chlorine',
@@ -128,6 +169,10 @@ export const COMMODITIES: Commodity[] = [
     fredSeriesId: 'WPU0613040101',
     basePrice: 265,
     volatility: 14,
+    pubchemCid: 24526,
+    pubchemQueryName: 'chlorine',
+    hsCode: '280110',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'none' },
   },
   {
     id: 'benzene',
@@ -142,6 +187,327 @@ export const COMMODITIES: Commodity[] = [
     fredSeriesId: 'PBANSOPUSDM',
     basePrice: 820,
     volatility: 45,
+    pubchemCid: 241,
+    pubchemQueryName: 'benzene',
+    hsCode: '290220',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'secondary', energy: 'none' },
+  },
+
+  // ── Specialty Chemicals additions ────────────────────────────────────────
+  {
+    id: 'toluene',
+    name: 'Toluene',
+    shortName: 'Toluene',
+    category: 'Aromatics',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Toluene spot price (proxy via mock data — no clean US series on FRED free tier)',
+    fredSeriesId: null,
+    basePrice: 720,
+    volatility: 35,
+    pubchemCid: 1140,
+    pubchemQueryName: 'toluene',
+    hsCode: '290230',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'secondary', energy: 'none' },
+  },
+  {
+    id: 'xylene',
+    name: 'Xylene (Mixed)',
+    shortName: 'Xylene',
+    category: 'Aromatics',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Mixed xylenes spot price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 850,
+    volatility: 42,
+    pubchemCid: 7929,
+    pubchemQueryName: 'xylene',
+    hsCode: '290244',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'none' },
+  },
+  {
+    id: 'ethylene',
+    name: 'Ethylene',
+    shortName: 'Ethylene',
+    category: 'Olefins',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Ethylene contract price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 580,
+    volatility: 30,
+    pubchemCid: 6325,
+    pubchemQueryName: 'ethylene',
+    hsCode: '290121',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'secondary' },
+  },
+  {
+    id: 'propylene',
+    name: 'Propylene',
+    shortName: 'Propylene',
+    category: 'Olefins',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Propylene contract price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 720,
+    volatility: 35,
+    pubchemCid: 8252,
+    pubchemQueryName: 'propylene',
+    hsCode: '290122',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'secondary' },
+  },
+  {
+    id: 'styrene',
+    name: 'Styrene',
+    shortName: 'Styrene',
+    category: 'Aromatics',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Styrene monomer spot price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 1100,
+    volatility: 55,
+    pubchemCid: 7501,
+    pubchemQueryName: 'styrene',
+    hsCode: '290250',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'none' },
+  },
+  {
+    id: 'phenol',
+    name: 'Phenol',
+    shortName: 'Phenol',
+    category: 'Aromatics',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Phenol spot price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 1280,
+    volatility: 60,
+    pubchemCid: 996,
+    pubchemQueryName: 'phenol',
+    hsCode: '290711',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'secondary', energy: 'none' },
+  },
+  {
+    id: 'acetone',
+    name: 'Acetone',
+    shortName: 'Acetone',
+    category: 'Solvents',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Acetone spot price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 1050,
+    volatility: 48,
+    pubchemCid: 180,
+    pubchemQueryName: 'acetone',
+    hsCode: '291411',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'primary', energy: 'none' },
+  },
+  {
+    id: 'hdpe',
+    name: 'HDPE (High-Density Polyethylene)',
+    shortName: 'HDPE',
+    category: 'Polymers',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'HDPE injection-grade resin price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 1380,
+    volatility: 65,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '390120',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'none' },
+  },
+  {
+    id: 'polypropylene',
+    name: 'Polypropylene',
+    shortName: 'PP',
+    category: 'Polymers',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Polypropylene homopolymer resin price (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 1450,
+    volatility: 70,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '390210',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'none', energy: 'none' },
+  },
+
+  // ── Life Sciences additions ──────────────────────────────────────────────
+  {
+    id: 'acetonitrile',
+    name: 'Acetonitrile',
+    shortName: 'Acetonitrile',
+    category: 'Solvents',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'HPLC-grade acetonitrile (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 3200,
+    volatility: 180,
+    pubchemCid: 6342,
+    pubchemQueryName: 'acetonitrile',
+    hsCode: '292690',
+    industryRelevance: { specialtyChem: 'secondary', lifeSciences: 'primary', energy: 'none' },
+  },
+  {
+    id: 'dmso',
+    name: 'DMSO (Dimethyl Sulfoxide)',
+    shortName: 'DMSO',
+    category: 'Solvents',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Pharmaceutical-grade DMSO (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 2100,
+    volatility: 95,
+    pubchemCid: 679,
+    pubchemQueryName: 'dimethyl sulfoxide',
+    hsCode: '293090',
+    industryRelevance: { specialtyChem: 'secondary', lifeSciences: 'primary', energy: 'none' },
+  },
+  {
+    id: 'ipa',
+    name: 'Isopropyl Alcohol (IPA)',
+    shortName: 'IPA',
+    category: 'Solvents',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'USP-grade isopropyl alcohol (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 1180,
+    volatility: 55,
+    pubchemCid: 3776,
+    pubchemQueryName: 'isopropanol',
+    hsCode: '290512',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'primary', energy: 'none' },
+  },
+  {
+    id: 'acetic-acid',
+    name: 'Acetic Acid',
+    shortName: 'Acetic Acid',
+    category: 'Chemicals',
+    unit: '$/MT',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'Glacial acetic acid (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 480,
+    volatility: 24,
+    pubchemCid: 176,
+    pubchemQueryName: 'acetic acid',
+    hsCode: '291521',
+    industryRelevance: { specialtyChem: 'primary', lifeSciences: 'primary', energy: 'none' },
+  },
+
+  // ── Energy & Feedstocks additions ────────────────────────────────────────
+  {
+    id: 'brent-crude',
+    name: 'Brent Crude Oil',
+    shortName: 'Brent',
+    category: 'Energy',
+    unit: '$/bbl',
+    dataSource: 'FRED',
+    badgeLabel: 'Gov: FRED',
+    badgeColor: 'green',
+    description: 'Brent crude oil spot price (Europe reference)',
+    fredSeriesId: 'POILBREUSDM',
+    basePrice: 82,
+    volatility: 3.5,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '270900',
+    industryRelevance: { specialtyChem: 'secondary', lifeSciences: 'none', energy: 'primary' },
+  },
+  // EIA series IDs for heating-oil and diesel were nulled — the EIA fetch uses
+  // the petroleum/pri/spt endpoint which expects EER_-prefixed spot series.
+  // EER_EPD2F_PF4_Y35NY_DPG (heating oil) may work but can't verify without key.
+  // EMD_EPD2D_PTE_NUS_DPG (diesel) uses EMD_ prefix not handled by current fetch logic.
+  // Both set to null; mock data fallback activates in api/commodities/[id]/route.ts.
+  {
+    id: 'heating-oil',
+    name: 'Heating Oil (No. 2)',
+    shortName: 'Heating Oil',
+    category: 'Energy',
+    unit: '$/gal',
+    dataSource: 'EIA',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'No. 2 heating oil spot price (NY Harbor) — EIA series pending endpoint verification',
+    eiaSeriesId: null,
+    basePrice: 2.45,
+    volatility: 0.10,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '271019',
+    industryRelevance: { specialtyChem: 'none', lifeSciences: 'none', energy: 'primary' },
+  },
+  {
+    id: 'diesel',
+    name: 'Diesel (Ultra-Low Sulfur)',
+    shortName: 'Diesel',
+    category: 'Energy',
+    unit: '$/gal',
+    dataSource: 'EIA',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'US ultra-low sulfur diesel retail price — EIA series pending endpoint verification',
+    eiaSeriesId: null,
+    basePrice: 3.85,
+    volatility: 0.12,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '271019',
+    industryRelevance: { specialtyChem: 'none', lifeSciences: 'none', energy: 'primary' },
+  },
+  {
+    id: 'biodiesel',
+    name: 'Biodiesel (B100)',
+    shortName: 'Biodiesel',
+    category: 'Bio-Chemicals',
+    unit: '$/gal',
+    dataSource: 'FRED',
+    badgeLabel: 'Mock Data',
+    badgeColor: 'gold',
+    description: 'B100 biodiesel wholesale (proxy via mock data)',
+    fredSeriesId: null,
+    basePrice: 4.20,
+    volatility: 0.18,
+    pubchemCid: null,
+    pubchemQueryName: null,
+    hsCode: '382600',
+    industryRelevance: { specialtyChem: 'none', lifeSciences: 'none', energy: 'primary' },
   },
 ];
 
@@ -149,4 +515,26 @@ export const CATEGORIES = [...new Set(COMMODITIES.map((c) => c.category))];
 
 export function getCommodityById(id: string): Commodity | undefined {
   return COMMODITIES.find((c) => c.id === id);
+}
+
+export function getCommoditiesForMode(
+  mode: IndustryMode,
+  includeSecondary: boolean = true
+): Commodity[] {
+  const key = modeToKey(mode);
+  return COMMODITIES.filter((c) => {
+    if (!c.industryRelevance) return false;
+    const level = c.industryRelevance[key];
+    if (level === 'primary') return true;
+    if (level === 'secondary' && includeSecondary) return true;
+    return false;
+  });
+}
+
+function modeToKey(
+  mode: IndustryMode
+): 'specialtyChem' | 'lifeSciences' | 'energy' {
+  if (mode === 'specialty-chem') return 'specialtyChem';
+  if (mode === 'life-sciences') return 'lifeSciences';
+  return 'energy';
 }

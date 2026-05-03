@@ -5,6 +5,7 @@ export type SessionPayload = {
   userId: string;
   email: string;
   name: string;
+  industryMode: string;
   expiresAt: string;
 };
 
@@ -32,9 +33,20 @@ export async function decrypt(token?: string): Promise<SessionPayload | null> {
   }
 }
 
-export async function createSession(user: { id: string; email: string; name: string }) {
+export async function createSession(user: {
+  id: string;
+  email: string;
+  name: string;
+  industryMode?: string;
+}) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const token = await encrypt({ userId: user.id, email: user.email, name: user.name, expiresAt });
+  const token = await encrypt({
+    userId: user.id,
+    email: user.email,
+    name: user.name,
+    industryMode: user.industryMode ?? 'specialty-chem',
+    expiresAt,
+  });
   const cookieStore = await cookies();
   cookieStore.set('session', token, {
     httpOnly: true,
