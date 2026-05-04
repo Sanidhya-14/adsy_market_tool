@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "warm-cache": "tsx --env-file=.env.local scripts/warm-pubchem-cache.ts"
+    "warm-cache": "tsx --env-file=.env.local scripts/warm-pubchem-cache.ts",
+    "generate-briefs": "tsx --env-file=.env.local scripts/generate-briefs.ts"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.3",
+    "groq-sdk": "^1.1.2",
     "jose": "^6.2.2",
     "lucide-react": "^1.8.0",
     "mongoose": "^9.5.0",

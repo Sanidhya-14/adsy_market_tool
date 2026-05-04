@@ -1,6 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Search, Menu } from 'lucide-react';
+import { useState } from 'react';
+import { Search, Menu, Construction, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { COMMODITIES, getCommoditiesForMode, type Commodity, type IndustryMode } from '@/lib/commodities';
 import { getCurrentPrice, getPriceChange } from '@/lib/mockData';
@@ -97,12 +97,13 @@ export default function Dashboard({ user, industryMode }: DashboardProps) {
   const { pinned, togglePin } = usePinnedCommodities();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [search, setSearch]           = useState('');
-  const [activeTab, setActiveTab]     = useState('all');
+  // Store tab alongside the mode it was set for — resets to 'all' when mode changes
+  const [tabState, setTabState] = useState({ tab: 'all', mode: industryMode });
+  const activeTab = tabState.mode === industryMode ? tabState.tab : 'all';
 
-  // Reset tab when mode changes
-  useEffect(() => {
-    setActiveTab('all');
-  }, [industryMode]);
+  function handleTabChange(tabId: string) {
+    setTabState({ tab: tabId, mode: industryMode });
+  }
 
   const modeCommodities = getCommoditiesForMode(industryMode);
 
@@ -187,7 +188,7 @@ export default function Dashboard({ user, industryMode }: DashboardProps) {
         <SectionTabs
           key={industryMode}
           mode={industryMode}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
 
         {/* Main content area */}
@@ -196,6 +197,19 @@ export default function Dashboard({ user, industryMode }: DashboardProps) {
             <DrugShortagesFeed />
           ) : activeTab === 'clinical-pipeline' ? (
             <ClinicalPipelineFeed />
+          ) : filtered.length === 0 && !search ? (
+            <div className="flex flex-col items-center justify-center h-64 text-center">
+              <Construction size={32} className="mb-3" style={{ color: 'var(--border)' }} />
+              <p className="font-semibold text-base" style={{ color: 'var(--muted)' }}>Coming Soon</p>
+              <p className="text-sm mt-1 max-w-xs" style={{ color: 'var(--border)' }}>
+                This segment is under development. Check back in the next release.
+              </p>
+              <div className="mt-3 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border"
+                style={{ borderColor: 'var(--border)', color: 'var(--muted)', backgroundColor: 'var(--card-2)' }}>
+                <Clock size={12} />
+                In progress
+              </div>
+            </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-center">
               <Search size={32} className="mb-3" style={{ color: 'var(--border)' }} />
