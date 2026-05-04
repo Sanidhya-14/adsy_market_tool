@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "warm-cache": "tsx --env-file=.env.local scripts/warm-pubchem-cache.ts",
-    "generate-briefs": "tsx --env-file=.env.local scripts/generate-briefs.ts"
+    "generate-briefs": "tsx --env-file=.env.local scripts/generate-briefs.ts",
+    "ingest-news": "tsx --env-file=.env.local scripts/ingest-news.ts"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
