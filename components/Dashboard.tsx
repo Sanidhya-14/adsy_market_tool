@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Search, Menu, Construction, Clock } from 'lucide-react';
+import { Search, Menu, LayoutGrid, AlertTriangle, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { COMMODITIES, getCommoditiesForMode, type Commodity, type IndustryMode } from '@/lib/commodities';
 import { getCurrentPrice, getPriceChange } from '@/lib/mockData';
@@ -8,48 +8,16 @@ import CommodityCard from './CommodityCard';
 import Sidebar, { usePinnedCommodities } from './Sidebar';
 import ThemeToggle from './ThemeToggle';
 import IndustryModeSwitcher from './IndustryModeSwitcher';
-import SectionTabs from './SectionTabs';
 import DrugShortagesFeed from './DrugShortagesFeed';
 import ClinicalPipelineFeed from './ClinicalPipelineFeed';
 
-// Special-case feed tabs that render non-card views
-const FEED_TABS = new Set(['drug-shortages', 'clinical-pipeline']);
+type LSTab = 'all' | 'drug-shortages' | 'clinical-pipeline';
 
-// Tab id → commodity categories to include (empty array = no matching commodities / show empty state)
-const TAB_CATEGORY_MAP: Record<string, string[]> = {
-  // specialty-chem tabs
-  feedstocks:    ['Energy', 'Petrochemicals'],
-  intermediates: ['Aromatics', 'Olefins', 'Chemicals'],
-  polymers:      ['Polymers'],
-  solvents:      ['Solvents'],
-  specialty:     ['Bio-Chemicals', 'Chlor-Alkali'],
-  // life-sciences tabs (apis / excipients have no category yet)
-  apis:          [],
-  excipients:    [],
-  // energy tabs
-  'crude-refined': ['energy-crude'],  // resolved by filterByTab special logic
-  'natural-gas':   ['energy-natgas'], // resolved by filterByTab special logic
-  biofuels:      ['Bio-Chemicals'],
-  power:         [],
-};
-
-function filterByTab(commodities: Commodity[], tabId: string): Commodity[] {
-  if (tabId === 'all') return commodities;
-
-  // Energy mode special cases
-  if (tabId === 'crude-refined') {
-    return commodities.filter(
-      (c) => c.category === 'Energy' && c.id !== 'natural-gas'
-    );
-  }
-  if (tabId === 'natural-gas') {
-    return commodities.filter((c) => c.id === 'natural-gas');
-  }
-
-  const cats = TAB_CATEGORY_MAP[tabId];
-  if (!cats || cats.length === 0) return [];
-  return commodities.filter((c) => cats.includes(c.category));
-}
+const LS_TABS: { id: LSTab; label: string; icon: React.ElementType }[] = [
+  { id: 'all',               label: 'All',               icon: LayoutGrid },
+  { id: 'drug-shortages',    label: 'Drug Shortages',    icon: AlertTriangle },
+  { id: 'clinical-pipeline', label: 'Clinical Pipeline', icon: TrendingUp },
+];
 
 // ── Ticker tape ─────────────────────────────────
 function TickerTape() {
@@ -97,31 +65,16 @@ export default function Dashboard({ user, industryMode }: DashboardProps) {
   const { pinned, togglePin } = usePinnedCommodities();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [search, setSearch]           = useState('');
-  // Store tab alongside the mode it was set for — resets to 'all' when mode changes
-  const [tabState, setTabState] = useState({ tab: 'all', mode: industryMode });
-  const activeTab = tabState.mode === industryMode ? tabState.tab : 'all';
-
-  function handleTabChange(tabId: string) {
-    setTabState({ tab: tabId, mode: industryMode });
-  }
+  const [lsTab, setLsTab]             = useState<LSTab>('all');
 
   const modeCommodities = getCommoditiesForMode(industryMode);
 
-  const filtered = FEED_TABS.has(activeTab)
-    ? []
-    : modeCommodities.filter((c: Commodity) => {
-        const matchSearch =
-          !search ||
-          c.name.toLowerCase().includes(search.toLowerCase()) ||
-          c.shortName.toLowerCase().includes(search.toLowerCase()) ||
-          c.category.toLowerCase().includes(search.toLowerCase());
-
-        const inTab = activeTab === 'all'
-          ? true
-          : filterByTab(modeCommodities, activeTab).some((fc) => fc.id === c.id);
-
-        return matchSearch && inTab;
-      });
+  const filtered = modeCommodities.filter((c: Commodity) =>
+    !search ||
+    c.name.toLowerCase().includes(search.toLowerCase()) ||
+    c.shortName.toLowerCase().includes(search.toLowerCase()) ||
+    c.category.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--background)' }}>
@@ -184,38 +137,46 @@ export default function Dashboard({ user, industryMode }: DashboardProps) {
           <ThemeToggle />
         </header>
 
-        {/* Section tabs — key resets internal state when mode changes */}
-        <SectionTabs
-          key={industryMode}
-          mode={industryMode}
-          onTabChange={handleTabChange}
-        />
+        {/* Life Sciences tab bar — only for life-sciences mode */}
+        {industryMode === 'life-sciences' && (
+          <div
+            className="no-print shrink-0 px-4 lg:px-6 py-3 border-b flex items-center gap-2 overflow-x-auto scrollbar-hide"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            {LS_TABS.map(({ id, label, icon: Icon }) => {
+              const isActive = lsTab === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setLsTab(id)}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 shrink-0 whitespace-nowrap"
+                  style={{
+                    backgroundColor: isActive ? 'var(--accent)' : 'transparent',
+                    borderColor:     isActive ? 'var(--accent)' : 'var(--border)',
+                    color:           isActive ? '#ffffff'        : 'var(--muted)',
+                    boxShadow:       isActive ? '0 2px 8px rgba(242,112,70,0.35)' : 'none',
+                  }}
+                >
+                  <Icon size={12} />
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Main content area */}
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-          {activeTab === 'drug-shortages' ? (
+          {industryMode === 'life-sciences' && lsTab === 'drug-shortages' ? (
             <DrugShortagesFeed />
-          ) : activeTab === 'clinical-pipeline' ? (
+          ) : industryMode === 'life-sciences' && lsTab === 'clinical-pipeline' ? (
             <ClinicalPipelineFeed />
-          ) : filtered.length === 0 && !search ? (
-            <div className="flex flex-col items-center justify-center h-64 text-center">
-              <Construction size={32} className="mb-3" style={{ color: 'var(--border)' }} />
-              <p className="font-semibold text-base" style={{ color: 'var(--muted)' }}>Coming Soon</p>
-              <p className="text-sm mt-1 max-w-xs" style={{ color: 'var(--border)' }}>
-                This segment is under development. Check back in the next release.
-              </p>
-              <div className="mt-3 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border"
-                style={{ borderColor: 'var(--border)', color: 'var(--muted)', backgroundColor: 'var(--card-2)' }}>
-                <Clock size={12} />
-                In progress
-              </div>
-            </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-center">
               <Search size={32} className="mb-3" style={{ color: 'var(--border)' }} />
               <p className="font-medium" style={{ color: 'var(--muted)' }}>No commodities found</p>
               <p className="text-sm mt-1" style={{ color: 'var(--border)' }}>
-                Try adjusting your search or tab filter
+                Try adjusting your search
               </p>
             </div>
           ) : (
@@ -230,24 +191,6 @@ export default function Dashboard({ user, industryMode }: DashboardProps) {
               ))}
             </div>
           )}
-
-          {/* Stats footer */}
-          <div className="mt-8 pt-6 border-t grid grid-cols-2 md:grid-cols-3 gap-4" style={{ borderColor: 'var(--border)' }}>
-            {[
-              { label: 'Tracked Commodities', value: COMMODITIES.length.toString() },
-              { label: 'Live Data Sources',    value: '2 APIs (EIA + FRED)' },
-              { label: 'Data Refresh',         value: 'Hourly' },
-            ].map(({ label, value }) => (
-              <div
-                key={label}
-                className="rounded-xl p-4 border"
-                style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
-              >
-                <p className="text-xs mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-                <p className="text-lg font-bold" style={{ color: 'var(--foreground)' }}>{value}</p>
-              </div>
-            ))}
-          </div>
         </main>
       </div>
     </div>

@@ -13,34 +13,23 @@ export async function GET(
     return Response.json({ error: 'Commodity not found' }, { status: 404 });
   }
 
-  if (!commodity.hsCode) {
-    return Response.json({
-      available: false,
-      reason: 'no_hs_code',
-      commodityName: commodity.name,
-      hsCode: null,
-    });
-  }
-
   const direction = (req.nextUrl.searchParams.get('direction') ?? 'import') as 'import' | 'export';
   const yearParam = req.nextUrl.searchParams.get('year');
   const year = yearParam ? parseInt(yearParam) : undefined;
 
-  if (!process.env.COMTRADE_API_KEY) {
+  const summary = await fetchUSTradeFlows(commodity.hsCode ?? '', direction, year, commodityId);
+
+  if (summary === null) {
     return Response.json({
       available: false,
-      reason: 'no_api_key',
+      reason: 'no_wits_mapping',
       commodityName: commodity.name,
-      hsCode: commodity.hsCode,
     });
   }
 
-  const summary = await fetchUSTradeFlows(commodity.hsCode, direction, year);
-
   return Response.json({
-    available: summary !== null,
+    available: true,
     summary,
     commodityName: commodity.name,
-    hsCode: commodity.hsCode,
   });
 }

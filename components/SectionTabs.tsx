@@ -7,13 +7,10 @@ import {
   Layers,
   Droplets,
   Atom,
-  Pill,
-  Package,
   AlertTriangle,
   TrendingUp,
   Flame,
   Beaker,
-  Zap,
 } from 'lucide-react';
 import type { IndustryMode } from '@/lib/commodities';
 
@@ -34,8 +31,6 @@ const TABS_BY_MODE: Record<IndustryMode, Tab[]> = {
   ],
   'life-sciences': [
     { id: 'all',               label: 'All',               icon: LayoutGrid },
-    { id: 'apis',              label: 'APIs',              icon: Pill },
-    { id: 'excipients',        label: 'Excipients',        icon: Package },
     { id: 'solvents',          label: 'Solvents',          icon: Droplets },
     { id: 'drug-shortages',    label: 'Drug Shortages',    icon: AlertTriangle },
     { id: 'clinical-pipeline', label: 'Clinical Pipeline', icon: TrendingUp },
@@ -45,7 +40,6 @@ const TABS_BY_MODE: Record<IndustryMode, Tab[]> = {
     { id: 'crude-refined', label: 'Crude & Refined', icon: Fuel },
     { id: 'natural-gas',   label: 'Natural Gas',     icon: Flame },
     { id: 'biofuels',      label: 'Biofuels',        icon: Beaker },
-    { id: 'power',         label: 'Power',           icon: Zap },
   ],
 };
 

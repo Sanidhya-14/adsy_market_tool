@@ -277,6 +277,14 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
                     style={{ backgroundColor: 'var(--up-muted)', color: 'var(--up)', border: '1px solid var(--up)' }}>
                     LIVE DATA
                   </span>
+                  {commodity.hsCode && (
+                    <span
+                      className="text-[10px] font-semibold tracking-[0.06em] px-2 py-0.5 rounded-full border"
+                      style={{ color: 'var(--muted)', borderColor: 'var(--border)', backgroundColor: 'transparent' }}
+                    >
+                      HS {commodity.hsCode}
+                    </span>
+                  )}
                 </div>
                 <h1 className="text-2xl lg:text-3xl font-bold mb-1" style={{ color: 'var(--foreground)' }}>
                   {commodity.name}
@@ -373,21 +381,6 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
                 <NewsCard commodityId={commodity.id} />
               </div>
 
-              {/* Meta row */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { label: 'Data Source', value: commodity.dataSource },
-                  { label: 'Unit',        value: commodity.unit },
-                  { label: 'Category',    value: commodity.category },
-                  { label: 'HS Code',     value: commodity.hsCode ?? 'N/A' },
-                ].map(({ label, value }) => (
-                  <div key={label} className="rounded-xl p-4 border print-card"
-                    style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-                    <p className="text-xs mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-                    <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>{value}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
 
@@ -413,7 +406,7 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
                           {commodity.hsCode}
                         </span>
                         <GeoBadge />
-                        <TrustBadge label="Comtrade" color="teal" size="sm" />
+                        <TrustBadge label="World Bank WITS" color="teal" size="sm" />
                       </div>
                     </div>
                   )}
@@ -559,7 +552,7 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <GeoBadge />
-                  <TrustBadge label="Comtrade" color="teal" size="sm" />
+                  <TrustBadge label="World Bank WITS" color="teal" size="sm" />
                 </div>
                 <div className="flex gap-1.5">
                   {(['import', 'export'] as const).map((dir) => (
@@ -590,10 +583,8 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
                         Trade flow data unavailable
                       </p>
                       <p className="text-xs mt-1" style={{ color: 'var(--border)' }}>
-                        {tradeData.reason === 'no_api_key'
-                          ? 'Configure COMTRADE_API_KEY to enable trade flow analysis.'
-                          : tradeData.reason === 'no_hs_code'
-                          ? 'No HS code available for this commodity.'
+                        {tradeData.reason === 'no_wits_mapping'
+                          ? 'No World Bank WITS product mapping for this commodity.'
                           : 'Data not available for this commodity.'}
                       </p>
                     </div>
@@ -610,7 +601,7 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
                           </p>
                         </div>
                         <p className="text-xs" style={{ color: 'var(--muted)' }}>
-                          Annual data · UN Comtrade · {tradeData.summary.period}
+                          Annual data · World Bank WITS · {tradeData.summary.period}
                         </p>
                       </div>
 
@@ -970,7 +961,7 @@ export default function CommodityDetailPage({ commodity, industryMode, chemicalC
                           { label: 'ClinicalTrials.gov', desc: 'Active clinical trial registrations', href: 'https://clinicaltrials.gov' },
                         ]
                       : []),
-                    { label: 'UN Comtrade', desc: 'US import/export trade flow data by HS code', href: 'https://comtrade.un.org' },
+                    { label: 'World Bank WITS', desc: 'US import/export trade flow data by product group', href: 'https://wits.worldbank.org' },
                     ...(chemicalContext
                       ? [{ label: 'Adsy Research', desc: 'Proprietary chemical market intelligence', href: 'https://adsyglobal.com' }]
                       : []),
